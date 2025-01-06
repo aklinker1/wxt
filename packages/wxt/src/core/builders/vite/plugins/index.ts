@@ -9,7 +9,6 @@ export * from './cssEntrypoints';
 export * from './bundleAnalysis';
 export * from './globals';
 export * from './extensionApiMock';
-export * from './resolveExtensionApi';
 export * from './entrypointGroupGlobals';
 export * from './defineImportMeta';
 export * from './removeEntrypointMainFunction';

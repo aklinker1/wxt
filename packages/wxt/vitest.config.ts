@@ -11,6 +11,7 @@ export default defineConfig({
       include: ['src/**'],
       exclude: ['**/dist', '**/__tests__', 'src/utils/testing'],
     },
+    setupFiles: ['./vitest.setup.ts'],
     globalSetup: ['./vitest.globalSetup.ts'],
   },
   server: {
@@ -22,7 +23,6 @@ export default defineConfig({
   resolve: {
     alias: {
       'wxt/testing': path.resolve('src/testing'),
-      'webextension-polyfill': path.resolve('src/virtual/mock-browser'),
     },
   },
 });

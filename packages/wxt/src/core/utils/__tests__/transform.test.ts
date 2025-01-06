@@ -57,13 +57,13 @@ describe('Transform Utils', () => {
 
     it('should remove unused imports', () => {
       const input = `
-        import { defineBackground } from "wxt/sandbox"
+        import { defineBackground } from "#imports"
         import { test1 } from "somewhere1"
         import test2 from "somewhere2"
 
         export default defineBackground(() => {})
       `;
-      const expected = `import { defineBackground } from "wxt/sandbox"
+      const expected = `import { defineBackground } from "#imports"
 
 export default defineBackground();`;
 
@@ -74,13 +74,13 @@ export default defineBackground();`;
 
     it('should remove explict side-effect imports', () => {
       const input = `
-        import { defineBackground } from "wxt/sandbox"
+        import { defineBackground } from "#imports"
         import "my-polyfill"
         import "./style.css"
 
         export default defineBackground(() => {})
       `;
-      const expected = `import { defineBackground } from "wxt/sandbox"
+      const expected = `import { defineBackground } from "#imports"
 
 export default defineBackground();`;
 

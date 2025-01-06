@@ -112,12 +112,12 @@ export default defineWxtModule<AnalyticModuleOptions>({
 
 ```ts
 import { defineWxtModule } from 'wxt/modules';
-import 'wxt/sandbox';
+import 'wxt/utils/define-app-config';
 
 export interface MyModuleRuntimeOptions {
   // Add your runtime options here...
 }
-declare module 'wxt/sandbox' {
+declare module 'wxt/utils/define-app-config' {
   export interface WxtAppConfig {
     myModule: MyModuleOptions;
   }

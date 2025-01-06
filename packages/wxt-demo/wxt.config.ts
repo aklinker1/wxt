@@ -3,7 +3,6 @@ import { presetUno } from 'unocss';
 
 export default defineConfig({
   srcDir: 'src',
-  extensionApi: 'chrome',
   manifest: {
     permissions: ['storage'],
     default_locale: 'en',

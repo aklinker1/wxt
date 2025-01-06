@@ -1,5 +1,8 @@
-import { defineContentScript } from 'wxt/sandbox';
-import { ContentScriptContext, createShadowRootUi } from 'wxt/client';
+import {
+  defineContentScript,
+  ContentScriptContext,
+  createShadowRootUi,
+} from '#imports';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 

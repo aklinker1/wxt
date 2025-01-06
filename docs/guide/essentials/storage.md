@@ -6,7 +6,7 @@ You can use the vanilla APIs (see docs above), use [WXT's built-in storage API](
 
 ## Alternatives
 
-1. [`wxt/storage`](/storage) (recommended): WXT ships with its own wrapper around the vanilla storage APIs that simplifies common use cases
+1. [`wxt/utils/storage`](/storage) (recommended): WXT ships with its own wrapper around the vanilla storage APIs that simplifies common use cases
 
 2. DIY: If you're migrating to WXT and already have a storage wrapper, keep using it. In the future, if you want to delete that code, you can use one of these alternatives, but there's no reason to replace working code during a migration.
 

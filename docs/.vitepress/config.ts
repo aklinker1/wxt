@@ -14,14 +14,19 @@ import { version as i18nVersion } from '../../packages/i18n/package.json';
 import { version as autoIconsVersion } from '../../packages/auto-icons/package.json';
 import { version as unocssVersion } from '../../packages/unocss/package.json';
 import { version as storageVersion } from '../../packages/storage/package.json';
+import { Feed } from 'feed';
+import { writeFile } from 'node:fs/promises';
+import { join } from 'node:path';
+
+const origin = 'https://wxt.dev';
 
 const title = 'Next-gen Web Extension Framework';
 const titleSuffix = ' – WXT';
 const description =
   "WXT provides the best developer experience, making it quick, easy, and fun to develop web extensions. With built-in utilities for building, zipping, and publishing your extension, it's easy to get started.";
 const ogTitle = `${title}${titleSuffix}`;
-const ogUrl = 'https://wxt.dev';
-const ogImage = 'https://wxt.dev/social-preview.png';
+const ogUrl = origin;
+const ogImage = `${origin}/social-preview.png`;
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -33,7 +38,30 @@ export default defineConfig({
   },
   lastUpdated: true,
   sitemap: {
-    hostname: 'https://wxt.dev',
+    hostname: origin,
+  },
+
+  async buildEnd(site) {
+    // Only construct the RSS document for production builds
+    const { default: blogDataLoader } = await import('./loaders/blog.data');
+    const posts = await blogDataLoader.load();
+    const feed = new Feed({
+      copyright: 'MIT',
+      id: 'wxt',
+      title: 'WXT Blog',
+      link: `${origin}/blog`,
+    });
+    posts.forEach((post) => {
+      feed.addItem({
+        date: post.frontmatter.date,
+        link: new URL(post.url, origin).href,
+        title: post.frontmatter.title,
+        description: post.frontmatter.description,
+      });
+    });
+    console.log('rss.xml:');
+    console.log(feed.rss2());
+    await writeFile(join(site.outDir, 'rss.xml'), feed.rss2(), 'utf8');
   },
 
   head: [
@@ -89,6 +117,7 @@ export default defineConfig({
       navItem('Guide', '/guide/installation'),
       navItem('Examples', '/examples'),
       navItem('API', '/api/reference/wxt'),
+      navItem('Blog', '/blog'),
       navItem(`v${wxtVersion}`, [
         navItem('wxt', [
           navItem(`v${wxtVersion}`, '/'),

@@ -38,11 +38,9 @@ export async function WxtVitest(
     resolveAppConfig(wxt.config),
     extensionApiMock(wxt.config),
   ];
-  if (wxt.config.imports !== false) {
-    const unimport = createUnimport(wxt.config.imports);
-    await unimport.init();
-    plugins.push(unimportPlugin(unimport));
-  }
+  const unimport = createUnimport(wxt.config.imports);
+  await unimport.init();
+  plugins.push(unimportPlugin(unimport, !wxt.config.imports.disabled));
 
   return plugins;
 }

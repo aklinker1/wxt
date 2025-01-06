@@ -67,20 +67,5 @@ describe('Module Utilities', () => {
 
       expect(wxt.config.imports && wxt.config.imports.presets).toHaveLength(2);
     });
-
-    it("should not enable imports if they've been disabled", async () => {
-      const preset = 'vue';
-      const wxt = fakeWxt({
-        hooks: createHooks(),
-        config: {
-          imports: false,
-        },
-      });
-
-      addImportPreset(wxt, preset);
-      await wxt.hooks.callHook('config:resolved', wxt);
-
-      expect(wxt.config.imports).toBe(false);
-    });
   });
 });

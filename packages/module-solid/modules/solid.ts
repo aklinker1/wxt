@@ -19,7 +19,8 @@ export default defineWxtModule<SolidModuleOptions>({
 
     // Enable auto-imports for JSX files
     wxt.hook('config:resolved', (wxt) => {
-      if (wxt.config.imports === false) return;
+      // In older versions of WXT, `wxt.config.imports` could be false
+      if (!wxt.config.imports) return;
 
       wxt.config.imports.dirsScanOptions ??= {};
       wxt.config.imports.dirsScanOptions.filePatterns = [

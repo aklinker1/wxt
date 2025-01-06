@@ -32,7 +32,7 @@ Here are real projects with unit testing setup. Look at the code and tests to se
 
 ### Example Tests
 
-This example demonstrates that you don't have to mock `browser.storage` (used by `wxt/storage`) in tests - [`@webext-core/fake-browser`](https://webext-core.aklinker1.io/fake-browser/installation) implements storage in-memory so it behaves like it would in a real extension!
+This example demonstrates that you don't have to mock `browser.storage` (used by `wxt/utils/storage`) in tests - [`@webext-core/fake-browser`](https://webext-core.aklinker1.io/fake-browser/installation) implements storage in-memory so it behaves like it would in a real extension!
 
 ```ts
 import { describe, it, expect } from 'vitest';
@@ -70,6 +70,34 @@ describe('isLoggedIn', () => {
   });
 });
 ```
+
+### Mocking WXT APIs
+
+First, you need to understand how the `#imports` module works. When WXT (and vitest) sees this import during a preprocessing step, the import is replaced with multiple imports pointing to their "real" import path.
+
+For example, this is what your write in your source code:
+
+```ts
+// What you write
+import { injectScript, createShadowRootUi } from '#imports';
+```
+
+But Vitest sees this:
+
+```ts
+import { injectScript } from 'wxt/browser';
+import { createShadowRootUi } from 'wxt/utils/content-script-ui/shadow-root';
+```
+
+So in this case, if you wanted to mock `injectScript`, you need to pass in `"wxt/utils/inject-script"`, not `"#imports"`.
+
+```ts
+vi.mock("wxt/utils/inject-script", () => ({
+  injectScript: ...
+}))
+```
+
+Refer to your project's `.wxt/types/imports-module.d.ts` file to lookup real import paths for `#imports`. If the file doesn't exist, run [`wxt prepare`](/guide/essentials/config/typescript).
 
 ## Other Testing Frameworks
 

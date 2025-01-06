@@ -1,4 +1,4 @@
-import { defineBackground } from '../../../../../sandbox';
+import { defineBackground } from '../../../../../utils/define-background';
 
 export const a = {};
 

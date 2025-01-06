@@ -15,7 +15,7 @@ export function noopBackground(): Plugin {
     },
     load(id) {
       if (id === resolvedVirtualModuleId) {
-        return `import { defineBackground } from 'wxt/sandbox';\nexport default defineBackground(() => void 0)`;
+        return `import { defineBackground } from 'wxt/utils/define-background';\nexport default defineBackground(() => void 0)`;
       }
     },
   };

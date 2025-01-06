@@ -61,14 +61,14 @@ After enabling it, your project structure should look like this:
 📂 {rootDir}/
 📁 .output/
 📁 .wxt/
+📁 modules/
+📁 public/
 📂 src/
    📁 assets/
    📁 components/
    📁 composables/
    📁 entrypoints/
    📁 hooks/
-   📁 modules/
-   📁 public/
    📁 utils/
    📄 app.config.ts
 📄 .env

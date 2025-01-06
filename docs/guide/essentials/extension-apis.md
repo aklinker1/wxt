@@ -4,52 +4,29 @@
 
 Different browsers provide different global variables for accessing the extension APIs (chrome provides `chrome`, firefox provides `browser`, etc).
 
-WXT simplifies this - always use `browser`:
+WXT merges these two into a unified API accessed through the `browser` variable.
 
 ```ts
+import { browser } from 'wxt/browser';
+
 browser.action.onClicked.addListener(() => {
   // ...
 });
 ```
 
-Other than that, refer to Chrome and Mozilla's documentation for how to use specific APIs. Everything a normal extension can do, WXT can do as well, just via `browser` instead of `chrome`.
+:::tip
+With auto-imports enabled, you don't even need to import this variable from `wxt/browser`!
+:::
 
-## Webextension Polyfill
+The `browser` variable WXT provides is a simple export of the `browser` or `chrome` globals provided by the browser at runtime:
 
-> Since `v0.1.0`
+<<< @/../packages/wxt/src/browser.ts#snippet
 
-By default, WXT uses the [`webextension-polyfill` by Mozilla](https://www.npmjs.com/package/webextension-polyfill) to make the extension API consistent between browsers.
+This means you can use the promise-style API for both MV2 and MV3, and it will work across all browsers (Chromium, Firefox, Safari, etc).
 
-To access types, you should import the relevant namespace from `wxt/browser`:
+## Accessing Types
 
-```ts
-import { Runtime } from 'wxt/browser';
-
-function handleMessage(message: any, sender: Runtime.Sender) {
-  // ...
-}
-```
-
-### Disabling the polyfill
-
-> Since `v0.19.0`
-
-After the release of MV3 and Chrome's official deprecation of MV2 in June 2024, the polyfill isn't really doing anything useful anymore.
-
-You can disable it with a single line:
-
-```ts
-// wxt.config.ts
-export default defineConfig({
-  extensionApi: 'chrome',
-});
-```
-
-This will change `wxt/browser` to simply export the `browser` or `chrome` globals based on browser at runtime:
-
-<<< @/../packages/wxt/src/browser/chrome.ts#snippet
-
-Accessing types is a little different with the polyfill disabled. They do not need to be imported; they're available on the `browser` object itself:
+All types can be accessed via WXT's `browser` object:
 
 ```ts
 function handleMessage(message: any, sender: browser.runtime.Sender) {
@@ -59,7 +36,7 @@ function handleMessage(message: any, sender: browser.runtime.Sender) {
 
 ## Feature Detection
 
-Depending on the manifest version and browser, some APIs are not available at runtime. If an API is not available, it will be `undefined`.
+Depending on the manifest version, browser, and permissions, some APIs are not available at runtime. If an API is not available, it will be `undefined`.
 
 :::warning
 Types will not help you here. The types WXT provides for `browser` assume all APIs exist. You are responsible for knowing whether an API is available or not.

@@ -1,5 +1,5 @@
 import definition from 'virtual:user-unlisted-script-entrypoint';
-import { logger } from '../sandbox/utils/logger';
+import { logger } from '../utils/internal/logger';
 import { initPlugins } from 'virtual:wxt-plugins';
 
 const result = (async () => {

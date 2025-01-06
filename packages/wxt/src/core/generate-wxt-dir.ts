@@ -37,10 +37,8 @@ export async function generateWxtDir(entrypoints: Entrypoint[]): Promise<void> {
   // import.meta.env.*
   entries.push(await getGlobalsDeclarationEntry());
 
-  // @types/chrome
-  if (wxt.config.extensionApi === 'chrome') {
-    entries.push({ module: '@types/chrome' });
-  }
+  // wxt/browser types
+  entries.push({ module: '@types/chrome' });
 
   // tsconfig.json
   entries.push(await getTsConfigEntry());
@@ -237,10 +235,11 @@ async function getTsConfigEntry(): Promise<WxtDirFileEntry> {
     .flatMap(([alias, absolutePath]) => {
       const aliasPath = getTsconfigPath(absolutePath);
       return [
-        `      "${alias}": ["${aliasPath}"]`,
-        `      "${alias}/*": ["${aliasPath}/*"]`,
+        `"${alias}": ["${aliasPath}"]`,
+        `"${alias}/*": ["${aliasPath}/*"]`,
       ];
     })
+    .map((line) => `      ${line}`)
     .join(',\n');
 
   const text = `{

@@ -1,12 +1,22 @@
 {
   "entryPoints": [
-    "src/client/index.ts",
-    "src/testing/index.ts",
-    "src/sandbox/index.ts",
-    "src/browser/index.ts",
-    "src/browser/chrome.ts",
     "src/index.ts",
-    "src/modules.ts",
-    "src/storage.ts"
+    "src/utils/app-config.ts",
+    "src/utils/inject-script.ts",
+    "src/utils/content-script-context.ts",
+    "src/utils/content-script-ui/types.ts",
+    "src/utils/content-script-ui/integrated.ts",
+    "src/utils/content-script-ui/shadow-root.ts",
+    "src/utils/content-script-ui/iframe.ts",
+    "src/utils/define-app-config.ts",
+    "src/utils/define-background.ts",
+    "src/utils/define-content-script.ts",
+    "src/utils/define-unlisted-script.ts",
+    "src/utils/define-wxt-plugin.ts",
+    "src/utils/match-patterns.ts",
+    "src/utils/storage.ts",
+    "src/browser.ts",
+    "src/testing/index.ts",
+    "src/modules.ts"
   ]
 }

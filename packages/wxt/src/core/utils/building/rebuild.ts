@@ -1,4 +1,3 @@
-import type { Manifest } from 'wxt/browser';
 import { BuildOutput, Entrypoint, EntrypointGroup } from '../../../types';
 import { generateWxtDir } from '../../generate-wxt-dir';
 import { buildEntrypoints } from './build-entrypoints';
@@ -30,7 +29,7 @@ export async function rebuild(
   },
 ): Promise<{
   output: BuildOutput;
-  manifest: Manifest.WebExtensionManifest;
+  manifest: chrome.runtime.Manifest;
   warnings: any[][];
 }> {
   const { default: ora } = await import('ora');

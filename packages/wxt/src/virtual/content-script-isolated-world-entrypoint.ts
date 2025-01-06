@@ -1,6 +1,6 @@
 import definition from 'virtual:user-content-script-isolated-world-entrypoint';
-import { logger } from '../sandbox/utils/logger';
-import { ContentScriptContext } from 'wxt/client';
+import { logger } from '../utils/internal/logger';
+import { ContentScriptContext } from 'wxt/utils/content-script-context';
 import { initPlugins } from 'virtual:wxt-plugins';
 
 const result = (async () => {

@@ -63,6 +63,7 @@ describe('Zipping', () => {
         "name": "test",
         "description": "Example description",
         "version": "1.0.0",
+        "type": "module",
         "dependencies": {
           "wxt": "../../../../..",
           "flatten": "1.0.3"

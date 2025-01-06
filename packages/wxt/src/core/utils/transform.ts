@@ -5,7 +5,7 @@ import { ProxifiedModule, parseModule } from 'magicast';
  * 1. Removes or clears out `main` function from returned object
  * 2. Removes any unused functions/variables outside the definition that aren't being called/used
  * 3. Removes unused imports
- * 3. Removes value-less, side-effect only imports (like `import "./styles.css"` or `import "webextension-polyfill"`)
+ * 3. Removes value-less, side-effect only imports (like `import "./styles.css"` or `import "polyfill"`)
  */
 export function removeMainFunctionCode(code: string): {
   code: string;

@@ -49,7 +49,7 @@ However, it does have one major downside:
    helloWorld: Hello world!
    ```
 
-   > `@wxt-dev/i18n` supports the standard messages format, so if you already have localization files at `<srcDir>/public/_locale/<lang>/messages.json`, you don't need to convert them to YAML or refactor them - just move them to `<srcDir>/locales/<lang>.json` and they'll just work out of the box!
+   > `@wxt-dev/i18n` supports the standard messages format, so if you already have localization files at `<rootDir>/public/_locale/<lang>/messages.json`, you don't need to convert them to YAML or refactor them - just move them to `<srcDir>/locales/<lang>.json` and they'll just work out of the box!
 
 4. To get a translation, use the auto-imported `i18n` object or import it manually:
 

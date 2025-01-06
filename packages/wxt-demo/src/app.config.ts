@@ -1,6 +1,6 @@
-import { defineAppConfig } from 'wxt/sandbox';
+import { defineAppConfig } from '#imports';
 
-declare module 'wxt/sandbox' {
+declare module 'wxt/utils/define-app-config' {
   export interface WxtAppConfig {
     example: string;
   }

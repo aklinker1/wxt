@@ -1,7 +1,7 @@
 import definition from 'virtual:user-background-entrypoint';
 import { initPlugins } from 'virtual:wxt-plugins';
-import { getDevServerWebSocket } from '../sandbox/dev-server-websocket';
-import { logger } from '../sandbox/utils/logger';
+import { getDevServerWebSocket } from '../utils/internal/dev-server-websocket';
+import { logger } from '../utils/internal/logger';
 import { browser } from 'wxt/browser';
 import { keepServiceWorkerAlive } from './utils/keep-service-worker-alive';
 import { reloadContentScript } from './utils/reload-content-scripts';

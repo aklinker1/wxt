@@ -1,5 +1,8 @@
-import { defineContentScript } from 'wxt/sandbox';
-import { ContentScriptContext, createShadowRootUi } from 'wxt/client';
+import {
+  defineContentScript,
+  ContentScriptContext,
+  createShadowRootUi,
+} from '#imports';
 import { render } from 'solid-js/web';
 
 export default defineContentScript({

@@ -13,7 +13,6 @@ import {
   fakeWxtDevServer,
   setFakeWxt,
 } from '../testing/fake-objects';
-import { Manifest } from 'webextension-polyfill';
 import {
   BuildOutput,
   ContentScriptEntrypoint,
@@ -57,7 +56,7 @@ describe('Manifest Utils', () => {
             outDir,
           },
         });
-        const expected: Partial<Manifest.WebExtensionManifest> = {
+        const expected: Partial<chrome.runtime.Manifest> = {
           action: {
             default_icon: popup.options.defaultIcon,
             default_title: popup.options.defaultTitle,
@@ -1111,31 +1110,6 @@ describe('Manifest Utils', () => {
         ).rejects.toThrow(
           'Non-MV3 web_accessible_resources detected: ["/icon.svg"]. When manually defining web_accessible_resources, define them as MV3 objects ({ matches: [...], resources: [...] }), and WXT will automatically convert them to MV2 when necessary.',
         );
-      });
-    });
-
-    describe('transformManifest option', () => {
-      it("should call the transformManifest option after the manifest is generated, but before it's returned", async () => {
-        const entrypoints: Entrypoint[] = [];
-        const buildOutput = fakeBuildOutput();
-        const newAuthor = 'Custom Author';
-        setFakeWxt({
-          config: {
-            transformManifest(manifest: any) {
-              manifest.author = newAuthor;
-            },
-          },
-        });
-        const expected = {
-          author: newAuthor,
-        };
-
-        const { manifest: actual } = await generateManifest(
-          entrypoints,
-          buildOutput,
-        );
-
-        expect(actual).toMatchObject(expected);
       });
     });
 

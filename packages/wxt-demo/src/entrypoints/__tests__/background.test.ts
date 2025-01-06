@@ -11,7 +11,7 @@ describe('Background Entrypoint', () => {
     fakeBrowser.reset();
   });
 
-  it("should log the extenion's runtime ID", () => {
+  it("should log the extension's runtime ID", () => {
     const id = 'some-id';
     fakeBrowser.runtime.id = id;
 

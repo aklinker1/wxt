@@ -34,14 +34,3 @@ export function removeImportStatements(text: string): string {
     '',
   );
 }
-
-/**
- * Removes imports, ensuring that some of WXT's client imports are present, so that entrypoints can be parsed if auto-imports are disabled.
- */
-export function removeProjectImportStatements(text: string): string {
-  const noImports = removeImportStatements(text);
-
-  return `import { defineUnlistedScript, defineContentScript, defineBackground } from 'wxt/sandbox';
-
-${noImports}`;
-}

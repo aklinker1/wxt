@@ -20,7 +20,6 @@ import {
 import { Hookable } from 'hookable';
 import { toArray } from '../../utils/arrays';
 import { safeVarName } from '../../utils/strings';
-import { importEntrypointFile } from '../../utils/building';
 import { ViteNodeServer } from 'vite-node/server';
 import { ViteNodeRunner } from 'vite-node/client';
 import { installSourcemapsSupport } from 'vite-node/source-map';
@@ -78,7 +77,6 @@ export async function createViteBuilder(
       wxtPlugins.tsconfigPaths(wxtConfig),
       wxtPlugins.noopBackground(),
       wxtPlugins.globals(wxtConfig),
-      wxtPlugins.resolveExtensionApi(wxtConfig),
       wxtPlugins.defineImportMeta(),
       wxtPlugins.wxtPluginLoader(wxtConfig),
       wxtPlugins.resolveAppConfig(wxtConfig),
@@ -281,44 +279,26 @@ export async function createViteBuilder(
     version: vite.version,
     async importEntrypoint(path) {
       const env = createExtensionEnvironment();
-      switch (wxtConfig.entrypointLoader) {
-        default:
-        case 'jiti': {
-          return await env.run(() => importEntrypointFile(path));
-        }
-        case 'vite-node': {
-          const { runner, server } = await createViteNodeImporter([path]);
-          const res = await env.run(() => runner.executeFile(path));
-          await server.close();
-          requireDefaultExport(path, res);
-          return res.default;
-        }
-      }
+      const { runner, server } = await createViteNodeImporter([path]);
+      const res = await env.run(() => runner.executeFile(path));
+      await server.close();
+      requireDefaultExport(path, res);
+      return res.default;
     },
     async importEntrypoints(paths) {
       const env = createExtensionEnvironment();
-      switch (wxtConfig.entrypointLoader) {
-        default:
-        case 'jiti': {
-          return await env.run(() =>
-            Promise.all(paths.map(importEntrypointFile)),
-          );
-        }
-        case 'vite-node': {
-          const { runner, server } = await createViteNodeImporter(paths);
-          const res = await env.run(() =>
-            Promise.all(
-              paths.map(async (path) => {
-                const mod = await runner.executeFile(path);
-                requireDefaultExport(path, mod);
-                return mod.default;
-              }),
-            ),
-          );
-          await server.close();
-          return res;
-        }
-      }
+      const { runner, server } = await createViteNodeImporter(paths);
+      const res = await env.run(() =>
+        Promise.all(
+          paths.map(async (path) => {
+            const mod = await runner.executeFile(path);
+            requireDefaultExport(path, mod);
+            return mod.default;
+          }),
+        ),
+      );
+      await server.close();
+      return res;
     },
     async build(group) {
       let entryConfig;

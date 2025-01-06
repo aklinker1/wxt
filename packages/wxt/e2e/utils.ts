@@ -39,6 +39,7 @@ export class TestProject {
             name: 'E2E Extension',
             description: 'Example description',
             version: '0.0.0',
+            type: 'module',
             dependencies: {
               wxt: '../../..',
             },

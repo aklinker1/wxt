@@ -6,14 +6,13 @@ import {
   ConfigEnv,
   UserManifestFn,
   UserManifest,
-  ExtensionRunnerConfig,
+  WebExtConfig,
   WxtResolvedUnimportOptions,
   Logger,
   WxtCommand,
   WxtModule,
   WxtModuleWithMetadata,
   ResolvedEslintrc,
-  Eslintrc,
 } from '../types';
 import path from 'node:path';
 import { createFsCache } from './utils/cache';
@@ -28,6 +27,7 @@ import { getEslintVersion } from './utils/eslint';
 import { safeStringToNumber } from './utils/number';
 import { loadEnv } from './utils/env';
 import { getPort } from 'get-port-please';
+import { fileURLToPath } from 'node:url';
 
 /**
  * Given an inline config, discover the config file if necessary, merge the results, resolve any
@@ -50,9 +50,6 @@ export async function resolveConfig(
       name: 'wxt',
       cwd: inlineConfig.root ?? process.cwd(),
       rcFile: false,
-      jitiOptions: {
-        esmResolve: true,
-      },
     });
     if (inlineConfig.configFile && metadata.layers?.length === 0) {
       throw Error(`Config file "${inlineConfig.configFile}" not found`);
@@ -90,40 +87,47 @@ export async function resolveConfig(
     srcDir,
     mergedConfig.entrypointsDir ?? 'entrypoints',
   );
-  const modulesDir = path.resolve(srcDir, mergedConfig.modulesDir ?? 'modules');
   if (await isDirMissing(entrypointsDir)) {
     logMissingDir(logger, 'Entrypoints', entrypointsDir);
   }
+  const modulesDir = path.resolve(root, mergedConfig.modulesDir ?? 'modules');
   const filterEntrypoints = mergedConfig.filterEntrypoints?.length
     ? new Set(mergedConfig.filterEntrypoints)
     : undefined;
-  const publicDir = path.resolve(srcDir, mergedConfig.publicDir ?? 'public');
+  const publicDir = path.resolve(root, mergedConfig.publicDir ?? 'public');
   const typesDir = path.resolve(wxtDir, 'types');
   const outBaseDir = path.resolve(root, mergedConfig.outDir ?? '.output');
   const modeSuffixes: Record<string, string | undefined> = {
     production: '',
     development: '-dev',
   };
+  const modeSuffix = modeSuffixes[mode] ?? `-${mode}`;
   const outDirTemplate = (
-    mergedConfig.outDirTemplate ?? `${browser}-mv${manifestVersion}`
+    mergedConfig.outDirTemplate ??
+    `${browser}-mv${manifestVersion}${modeSuffix}`
   )
     // Resolve all variables in the template
     .replaceAll('{{browser}}', browser)
     .replaceAll('{{manifestVersion}}', manifestVersion.toString())
-    .replaceAll('{{modeSuffix}}', modeSuffixes[mode] ?? `-${mode}`)
+    .replaceAll('{{modeSuffix}}', modeSuffix)
     .replaceAll('{{mode}}', mode)
     .replaceAll('{{command}}', command);
 
   const outDir = path.resolve(outBaseDir, outDirTemplate);
   const reloadCommand = mergedConfig.dev?.reloadCommand ?? 'Alt+R';
 
-  const runnerConfig = await loadConfig<ExtensionRunnerConfig>({
+  if (inlineConfig.runner != null || userConfig.runner != null) {
+    logger.warn(
+      '`InlineConfig#runner` is deprecated, use `InlineConfig#webExt` instead. See https://wxt.dev/guide/resources/upgrading.html#v0-19-0-rarr-v0-20-0',
+    );
+  }
+  const runnerConfig = await loadConfig<WebExtConfig>({
     name: 'web-ext',
     cwd: root,
     globalRc: true,
     rcFile: '.webextrc',
-    overrides: inlineConfig.runner,
-    defaults: userConfig.runner,
+    overrides: inlineConfig.webExt ?? inlineConfig.runner,
+    defaults: userConfig.webExt ?? userConfig.runner,
   });
   // Make sure alias are absolute
   const alias = Object.fromEntries(
@@ -171,8 +175,6 @@ export async function resolveConfig(
     {},
   );
 
-  const extensionApi = mergedConfig.extensionApi ?? 'webextension-polyfill';
-
   return {
     browser,
     command,
@@ -182,13 +184,7 @@ export async function resolveConfig(
     filterEntrypoints,
     env,
     fsCache: createFsCache(wxtDir),
-    imports: await getUnimportOptions(
-      wxtDir,
-      srcDir,
-      logger,
-      extensionApi,
-      mergedConfig,
-    ),
+    imports: await getUnimportOptions(wxtDir, srcDir, logger, mergedConfig),
     logger,
     manifest: await resolveManifestConfig(env, mergedConfig.manifest),
     manifestVersion,
@@ -203,12 +199,9 @@ export async function resolveConfig(
     typesDir,
     wxtDir,
     zip: resolveZipConfig(root, browser, outBaseDir, mergedConfig),
-    transformManifest: mergedConfig.transformManifest,
     analysis: resolveAnalysisConfig(root, mergedConfig),
     userConfigMetadata: userConfigMetadata ?? {},
     alias,
-    extensionApi,
-    entrypointLoader: mergedConfig.entrypointLoader ?? 'vite-node',
     experimental: defu(mergedConfig.experimental, {}),
     dev: {
       server: devServerConfig,
@@ -254,12 +247,6 @@ async function mergeInlineConfig(
     return defu(inline, user);
   };
 
-  // Merge transformManifest option
-  const transformManifest: InlineConfig['transformManifest'] = (manifest) => {
-    userConfig.transformManifest?.(manifest);
-    inlineConfig.transformManifest?.(manifest);
-  };
-
   const merged = defu(inlineConfig, userConfig);
 
   // Builders
@@ -272,7 +259,6 @@ async function mergeInlineConfig(
   return {
     ...merged,
     // Custom merge values
-    transformManifest,
     imports,
     manifest,
     ...builderConfig,
@@ -342,38 +328,140 @@ async function getUnimportOptions(
   wxtDir: string,
   srcDir: string,
   logger: Logger,
-  extensionApi: ResolvedConfig['extensionApi'],
   config: InlineConfig,
-): Promise<WxtResolvedUnimportOptions | false> {
-  if (config.imports === false) return false;
+): Promise<WxtResolvedUnimportOptions> {
+  const disabled = config.imports === false;
+  const eslintrc = await getUnimportEslintOptions(wxtDir, config.imports);
+  // mlly sometimes picks up things as exports that aren't. That's what this array contains.
+  const invalidExports = ['options'];
+
+  const defineImportsAndTypes = (imports: string[], typeImports: string[]) => [
+    ...imports,
+    ...typeImports.map((name) => ({ name, type: true })),
+  ];
 
   const defaultOptions: WxtResolvedUnimportOptions = {
-    debugLog: logger.debug,
-    imports: [
-      { name: 'defineConfig', from: 'wxt' },
-      { name: 'fakeBrowser', from: 'wxt/testing' },
-    ],
+    imports: [{ name: 'fakeBrowser', from: 'wxt/testing' }],
     presets: [
       {
-        package: 'wxt/client',
-        // There seems to be a bug in unimport that thinks "options" is an
-        // export from wxt/client, but it doesn't actually exist... so it's
-        // ignored.
-        ignore: ['options'],
+        from: 'wxt/browser',
+        imports: defineImportsAndTypes(['browser'], []),
       },
       {
-        package:
-          extensionApi === 'chrome' ? 'wxt/browser/chrome' : 'wxt/browser',
+        from: 'wxt/utils/storage',
+        imports: defineImportsAndTypes(
+          ['storage'],
+          [
+            'StorageArea',
+            'WxtStorage',
+            'WxtStorageItem',
+            'StorageArea',
+            'StorageItemKey',
+            'StorageAreaChanges',
+            'MigrationError',
+          ],
+        ),
       },
-      { package: 'wxt/sandbox' },
-      { package: 'wxt/storage' },
+      {
+        from: 'wxt/utils/app-config',
+        imports: defineImportsAndTypes(['useAppConfig'], []),
+      },
+      {
+        from: 'wxt/utils/content-script-context',
+        imports: defineImportsAndTypes(
+          ['ContentScriptContext'],
+          ['WxtWindowEventMap'],
+        ),
+      },
+      {
+        from: 'wxt/utils/content-script-ui/iframe',
+        imports: defineImportsAndTypes(
+          ['createIframeUi'],
+          ['IframeContentScriptUi', 'IframeContentScriptUiOptions'],
+        ),
+        ignore: invalidExports,
+      },
+      {
+        from: 'wxt/utils/content-script-ui/integrated',
+        imports: defineImportsAndTypes(
+          ['createIntegratedUi'],
+          ['IntegratedContentScriptUi', 'IntegratedContentScriptUiOptions'],
+        ),
+        ignore: invalidExports,
+      },
+      {
+        from: 'wxt/utils/content-script-ui/shadow-root',
+        imports: defineImportsAndTypes(
+          ['createShadowRootUi'],
+          ['ShadowRootContentScriptUi', 'ShadowRootContentScriptUiOptions'],
+        ),
+        ignore: invalidExports,
+      },
+      {
+        from: 'wxt/utils/content-script-ui/types',
+        imports: defineImportsAndTypes(
+          [],
+          [
+            'ContentScriptUi',
+            'ContentScriptUiOptions',
+            'ContentScriptOverlayAlignment',
+            'ContentScriptAppendMode',
+            'ContentScriptInlinePositioningOptions',
+            'ContentScriptOverlayPositioningOptions',
+            'ContentScriptModalPositioningOptions',
+            'ContentScriptPositioningOptions',
+            'ContentScriptAnchoredOptions',
+            'AutoMountOptions',
+            'StopAutoMount',
+            'AutoMount',
+          ],
+        ),
+      },
+      {
+        from: 'wxt/utils/define-app-config',
+        imports: defineImportsAndTypes(['defineAppConfig'], ['WxtAppConfig']),
+      },
+      {
+        from: 'wxt/utils/define-background',
+        imports: defineImportsAndTypes(['defineBackground'], []),
+      },
+      {
+        from: 'wxt/utils/define-content-script',
+        imports: defineImportsAndTypes(['defineContentScript'], []),
+      },
+      {
+        from: 'wxt/utils/define-unlisted-script',
+        imports: defineImportsAndTypes(['defineUnlistedScript'], []),
+      },
+      {
+        from: 'wxt/utils/define-wxt-plugin',
+        imports: defineImportsAndTypes(['defineWxtPlugin'], []),
+      },
+      {
+        from: 'wxt/utils/inject-script',
+        imports: defineImportsAndTypes(
+          ['injectScript'],
+          ['ScriptPublicPath', 'InjectScriptOptions'],
+        ),
+        ignore: invalidExports,
+      },
+      {
+        from: 'wxt/utils/match-patterns',
+        imports: defineImportsAndTypes(
+          ['InvalidMatchPattern', 'MatchPattern'],
+          [],
+        ),
+      },
     ],
+    virtualImports: ['#imports'],
+    debugLog: logger.debug,
     warn: logger.warn,
-    dirs: ['components', 'composables', 'hooks', 'utils'],
     dirsScanOptions: {
       cwd: srcDir,
     },
-    eslintrc: await getUnimportEslintOptions(wxtDir, config.imports?.eslintrc),
+    eslintrc,
+    dirs: disabled ? [] : ['components', 'composables', 'hooks', 'utils'],
+    disabled,
   };
 
   return defu<WxtResolvedUnimportOptions, [WxtResolvedUnimportOptions]>(
@@ -384,34 +472,34 @@ async function getUnimportOptions(
 
 async function getUnimportEslintOptions(
   wxtDir: string,
-  options: Eslintrc | undefined,
+  options: InlineConfig['imports'],
 ): Promise<ResolvedEslintrc> {
-  const rawEslintEnabled = options?.enabled ?? 'auto';
-  let eslintEnabled: ResolvedEslintrc['enabled'];
-  switch (rawEslintEnabled) {
+  const inlineEnabled =
+    options === false ? false : (options?.eslintrc?.enabled ?? 'auto');
+
+  let enabled: ResolvedEslintrc['enabled'];
+  switch (inlineEnabled) {
     case 'auto':
       const version = await getEslintVersion();
       let major = parseInt(version[0]);
-      if (isNaN(major)) eslintEnabled = false;
-      if (major <= 8) eslintEnabled = 8;
-      else if (major >= 9) eslintEnabled = 9;
+      if (isNaN(major)) enabled = false;
+      if (major <= 8) enabled = 8;
+      else if (major >= 9) enabled = 9;
       // NaN
-      else eslintEnabled = false;
+      else enabled = false;
       break;
     case true:
-      eslintEnabled = 8;
+      enabled = 8;
       break;
     default:
-      eslintEnabled = rawEslintEnabled;
+      enabled = inlineEnabled;
   }
 
   return {
-    enabled: eslintEnabled,
+    enabled,
     filePath: path.resolve(
       wxtDir,
-      eslintEnabled === 9
-        ? 'eslint-auto-imports.mjs'
-        : 'eslintrc-auto-import.json',
+      enabled === 9 ? 'eslint-auto-imports.mjs' : 'eslintrc-auto-import.json',
     ),
     globalsPropValue: true,
   };
@@ -421,20 +509,10 @@ async function getUnimportEslintOptions(
  * Returns the path to `node_modules/wxt`.
  */
 async function resolveWxtModuleDir() {
-  // TODO: Use this once we're fully running in ESM, see https://github.com/wxt-dev/wxt/issues/277
-  // const url = import.meta.resolve('wxt', import.meta.url);
+  const url = import.meta.resolve('wxt', import.meta.url);
   // resolve() returns the "wxt/dist/index.mjs" file, not the package's root
   // directory, which we want to return from this function.
-  // return path.resolve(fileURLToPath(url), '../..');
-
-  const requireResolve =
-    globalThis.require?.resolve ??
-    (await import('node:module')).default.createRequire(import.meta.url)
-      .resolve;
-
-  // resolve() returns the "wxt/dist/index.mjs" file, not the package's root
-  // directory, which we want to return from this function.
-  return path.resolve(requireResolve('wxt'), '../..');
+  return path.resolve(fileURLToPath(url), '../..');
 }
 
 async function isDirMissing(dir: string) {
@@ -531,4 +609,13 @@ export async function resolveWxtUserModules(
     }),
   );
   return [...npmModules, ...localModules];
+}
+
+// Mock `import.meta.resolve` in tests
+// @ts-expect-error
+if (typeof __vite_ssr_import_meta__ !== 'undefined') {
+  // @ts-expect-error: Untyped global defined by Vitest
+  __vite_ssr_import_meta__.resolve = (path: string) =>
+    // @ts-expect-error: vitestCreateRequire defined in vitest.setup.ts
+    'file://' + vitestCreateRequire(import.meta.url).resolve(path);
 }

@@ -29,7 +29,7 @@ img.src = imageUrl;
 
 ## `/public` Directory
 
-Files inside `<srcDir>/public/` are copied into the output folder as-is, without being processed by WXT's bundler.
+Files inside `<rootDir>/public/` are copied into the output folder as-is, without being processed by WXT's bundler.
 
 Here's how you access them:
 
@@ -52,6 +52,10 @@ img.src = imageUrl;
 }
 ```
 
+:::
+
+:::warning
+Assets in the `public/` directory are **_not_** accessible in content scripts by default. To use a public asset in a content script, you must add it to your manifest's [`web_accessible_resources` array](/api/reference/wxt/type-aliases/UserManifest#web-accessible-resources).
 :::
 
 ## Inside Content Scripts

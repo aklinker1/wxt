@@ -4,7 +4,7 @@ outline: deep
 
 # Browser Startup
 
-> See the [API Reference](/api/reference/wxt/interfaces/ExtensionRunnerConfig) for a full list of config.
+> See the [API Reference](/api/reference/wxt/interfaces/WebExtConfig) for a full list of config.
 
 During development WXT uses [`web-ext` by Mozilla](https://www.npmjs.com/package/web-ext) to automatically open a browser window with your extension installed.
 
@@ -15,9 +15,9 @@ You can configure browser startup in 3 places:
 1. `<rootDir>/web-ext.config.ts`: Ignored from version control, this file lets you configure your own options for a specific project without affecting other developers
 
    ```ts
-   import { defineRunnerConfig } from 'wxt';
+   import { defineWebExtConfig } from 'wxt';
 
-   export default defineRunnerConfig({
+   export default defineWebExtConfig({
      // ...
    });
    ```
@@ -32,7 +32,7 @@ You can configure browser startup in 3 places:
 To set or customize the browser opened during development:
 
 ```ts
-export default defineRunnerConfig({
+export default defineWebExtConfig({
   binaries: {
     chrome: '/path/to/chrome-beta', // Use Chrome Beta instead of regular Chrome
     firefox: 'firefoxdeveloperedition', // Use Firefox Developer Edition instead of regular Firefox
@@ -54,7 +54,7 @@ To persist data, set the `--user-data-dir` flag:
 :::code-group
 
 ```ts [Mac/Linux]
-export default defineRunnerConfig({
+export default defineWebExtConfig({
   chromiumArgs: ['--user-data-dir=./.wxt/chrome-data'],
 });
 ```
@@ -62,7 +62,7 @@ export default defineRunnerConfig({
 ```ts [Windows]
 import { resolve } from 'node:path';
 
-export default defineRunnerConfig({
+export default defineWebExtConfig({
   // On Windows, the path must be absolute
   chromiumProfile: resolve('.wxt/chrome-data'),
   keepProfileChanges: true,
@@ -82,7 +82,7 @@ You can use any directory you'd like for `--user-data-dir`, the examples above c
 If you prefer to load the extension into your browser manually, you can disable the auto-open behavior:
 
 ```ts
-export default defineRunnerConfig({
+export default defineWebExtConfig({
   disabled: true,
 });
 ```

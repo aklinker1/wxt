@@ -24,6 +24,7 @@
     "changelogen": "^0.5.7",
     "consola": "^3.2.3",
     "fast-glob": "^3.3.2",
+    "feed": "^4.2.2",
     "fs-extra": "^11.2.0",
     "lint-staged": "^15.2.10",
     "markdown-it-footnote": "^4.0.0",
