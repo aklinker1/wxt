@@ -117,6 +117,18 @@ importers:
         specifier: workspace:*
         version: link:../wxt
 
+  packages/browser-types:
+    dependencies:
+      fs-extra:
+        specifier: ^11.2.0
+        version: 11.2.0
+      giget:
+        specifier: ^1.2.3
+        version: 1.2.3
+      tsx:
+        specifier: 4.15.7
+        version: 4.15.7
+
   packages/i18n:
     dependencies:
       chokidar:

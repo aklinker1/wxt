@@ -1,0 +1,22 @@
+{
+  "name": "@wxt-dev/browser-types",
+  "description": "A modified version of @types/chrome for WXT",
+  "version": "0.0.287",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wxt-dev/wxt.git",
+    "directory": "packages/browser-types"
+  },
+  "author": {
+    "name": "Aaron Klinker",
+    "email": "aaronklinker1+wxt@gmail.com"
+  },
+  "license": "MIT",
+  "files": [
+    "gen"
+  ],
+  "dependencies": {
+    "@types/filesystem": "*",
+    "@types/har-format": "*"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@wxt-dev/browser-types-generator",
+  "description": "Generate a modified version of @types/chrome for WXT",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "gen": "tsx generate.ts"
+  },
+  "dependencies": {
+    "fs-extra": "^11.2.0",
+    "giget": "^1.2.3",
+    "tsx": "4.15.7"
+  }
+}

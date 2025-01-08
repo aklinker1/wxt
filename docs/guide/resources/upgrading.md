@@ -67,7 +67,11 @@ function getMessageSenderUrl(sender: browser.runtime.MessageSender): string { //
 }
 ```
 
-`@types/chrome` are more up-to-date, contain less bugs, and don't have any auto-generated names. So even if you continue to use the polyfill, you will need to update your types to use these types.
+`@types/chrome` are more up-to-date and contain less bugs, but not all types do not have the same names. You will have to find the equivalent types in `@types/chrome` that you were using before.
+
+:::warning
+Even if you continue to use the polyfill, you will need to update your types to use `@types/chrome`.
+:::
 
 ### `public/` and `modules/` Directories Moved
 
