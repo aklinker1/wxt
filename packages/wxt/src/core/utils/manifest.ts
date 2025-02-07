@@ -467,7 +467,7 @@ function discoverIcons(
 }
 
 function addDevModeCsp(manifest: Manifest.WebExtensionManifest): void {
-  const permission = `http://${wxt.server?.hostname ?? ''}/*`;
+  const permission = `${wxt.server?.origin.replace(/:[0-9]+$/, '') ?? `http://localhost:${wxt.server?.port}`}/*`;
   const allowedCsp = wxt.server?.origin ?? 'http://localhost:*';
 
   if (manifest.manifest_version === 3) {

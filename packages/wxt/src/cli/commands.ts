@@ -16,7 +16,8 @@ cli
   .option('-c, --config <file>', 'use specified config file')
   .option('-m, --mode <mode>', 'set env mode')
   .option('-b, --browser <browser>', 'specify a browser')
-  .option('-p, --port <port>', 'specify a port for the dev server')
+  .option('--host <host>', 'specify a host for the dev server to bind to')
+  .option('-p, --port <port>', 'specify a port for the dev server to bind to')
   .option(
     '-e, --filter-entrypoint <entrypoint>',
     'only build specific entrypoints',
@@ -28,6 +29,12 @@ cli
   .option('--mv2', 'target manifest v2')
   .action(
     wrapAction(async (root, flags) => {
+      const serverOptions: NonNullable<
+        NonNullable<Parameters<typeof createServer>[0]>['dev']
+      >['server'] = {};
+      if (flags.host) serverOptions.host = flags.host;
+      if (flags.port) serverOptions.port = parseInt(flags.port);
+
       const server = await createServer({
         root,
         mode: flags.mode,
@@ -37,13 +44,9 @@ cli
         debug: flags.debug,
         filterEntrypoints: getArrayFromFlags(flags, 'filterEntrypoint'),
         dev:
-          flags.port == null
+          Object.keys(serverOptions).length === 0
             ? undefined
-            : {
-                server: {
-                  port: parseInt(flags.port),
-                },
-              },
+            : { server: serverOptions },
       });
       await server.start();
       return { isOngoing: true };

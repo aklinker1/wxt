@@ -1,6 +1,4 @@
-declare const __DEV_SERVER_PROTOCOL__: string;
-declare const __DEV_SERVER_HOSTNAME__: string;
-declare const __DEV_SERVER_PORT__: string;
+declare const __DEV_SERVER_ORIGIN__: string;
 
 // Globals defined by the vite-plugins/devServerGlobals.ts and utils/globals.ts
 interface ImportMetaEnv {

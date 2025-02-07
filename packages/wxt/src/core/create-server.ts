@@ -50,12 +50,8 @@ export async function createServer(
 
 async function createServerInternal(): Promise<WxtDevServer> {
   const getServerInfo = (): ServerInfo => {
-    const { port, hostname } = wxt.config.dev.server!;
-    return {
-      port,
-      hostname,
-      origin: `http://${hostname}:${port}`,
-    };
+    const { host, port, origin } = wxt.config.dev.server!;
+    return { host, port, origin };
   };
 
   let [runner, builderServer] = await Promise.all([
@@ -69,8 +65,8 @@ async function createServerInternal(): Promise<WxtDevServer> {
   // Server instance must be created first so its reference can be added to the internal config used
   // to pre-render entrypoints
   const server: WxtDevServer = {
-    get hostname() {
-      return getServerInfo().hostname;
+    get host() {
+      return getServerInfo().host;
     },
     get port() {
       return getServerInfo().port;
