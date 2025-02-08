@@ -6,8 +6,7 @@ import type {
   WxtResolvedUnimportOptions,
 } from '../types';
 import { type Unimport, createUnimport } from 'unimport';
-import { Plugin } from 'vite';
-import { extname } from 'node:path';
+import UnimportPlugin from 'unimport/unplugin';
 
 export default defineWxtModule({
   name: 'wxt:built-in:unimport',
@@ -53,37 +52,10 @@ export default defineWxtModule({
 
     // Add vite plugin
     addViteConfig(wxt, () => ({
-      plugins: [vitePlugin(unimport)],
+      plugins: [UnimportPlugin.vite(options)],
     }));
   },
 });
-
-export function vitePlugin(unimport: Unimport): Plugin {
-  const ENABLED_EXTENSIONS = new Set([
-    '.js',
-    '.jsx',
-    '.ts',
-    '.tsx',
-    '.vue',
-    '.svelte',
-  ]);
-  return {
-    name: 'wxt:unimport',
-    async transform(code, id) {
-      // Don't transform dependencies
-      if (id.includes('node_modules')) return;
-
-      // Don't transform non-js files
-      if (!ENABLED_EXTENSIONS.has(extname(id))) return;
-
-      const injected = await unimport.injectImports(code, id);
-      return {
-        code: injected.code,
-        map: injected.s.generateMap({ hires: 'boundary', source: id }),
-      };
-    },
-  };
-}
 
 async function getImportsDeclarationEntry(
   unimport: Unimport,
