@@ -87,9 +87,7 @@ WXT is a [MIT-licensed](https://github.com/wxt-dev/wxt/blob/main/LICENSE) open s
 
 Published under the [MIT](https://github.com/wxt-dev/wxt/blob/main/LICENSE) license.
 Made by [@aklinker1](https://github.com/aklinker1) and [community](https://github.com/wxt-dev/wxt/graphs/contributors) 💛
-<br><br>
-<a href="https://github.com/wxt-dev/wxt/graphs/contributors">
-<img src="https://contrib.rocks/image?repo=wxt-dev/wxt" />
-</a>
+
+[![Contributors](https://contributors-table.vercel.app/image?repo=wxt-dev/wxt)](https://github.com/wxt-dev/wxt/graphs/contributors)
 
 <!-- /automd -->
