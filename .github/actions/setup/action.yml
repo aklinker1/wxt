@@ -1,23 +1,31 @@
 name: Basic Setup
 description: Install PNPM, Node, and dependencies
+
 inputs:
   install:
     default: 'true'
+    type: boolean
     description: Whether or not to run 'pnpm install'
+
   installArgs:
     default: ''
+    type: string
     description: Additional args to append to "pnpm install"
+
 runs:
   using: composite
+
   steps:
-    - name: Setup PNPM
+    - name: 🛠️ Setup PNPM
       uses: pnpm/action-setup@v4
-    - name: Setup NodeJS
+
+    - name: 🛠️ Setup NodeJS
       uses: actions/setup-node@v4
       with:
         node-version: 18
         cache: pnpm
-    - name: Install Dependencies
+
+    - name: 📦 Install Dependencies
       if: ${{ inputs.install == 'true' }}
       shell: bash
       run: pnpm install ${{ inputs.installArgs }}

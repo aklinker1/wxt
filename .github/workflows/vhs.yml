@@ -1,26 +1,40 @@
-name: vhs
+name: 📼 VHS
+
 on:
   push:
     paths:
       - 'docs/tapes/*.tape'
+
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   vhs:
     runs-on: ubuntu-22.04
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup
+        uses: ./.github/actions/setup
         with:
-          install: 'false'
-      - name: Preinstall WXT
+          install: false
+
+      - name: Install WXT
         run: |
           pnpm store add wxt@latest
           pnpm dlx wxt@latest --version
-      - uses: charmbracelet/vhs-action@v2.1.0
+
+      - name: Record VHS
+        uses: charmbracelet/vhs-action@v2.1.0
         with:
           path: 'docs/tapes/init-demo.tape'
-      - uses: stefanzweifel/git-auto-commit-action@v5
+
+      - name: Save recorded GIF
+        uses: stefanzweifel/git-auto-commit-action@v5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
