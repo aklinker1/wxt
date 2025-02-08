@@ -1,0 +1,10 @@
+{
+  "name": "yarn-classic-ls",
+  "packageManager": "yarn@1.22.22",
+  "dependencies": {
+    "mime-types": "2.1.35"
+  },
+  "devDependencies": {
+    "flatten": "1.0.3"
+  }
+}
