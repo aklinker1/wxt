@@ -1,0 +1,27 @@
+name: 🎉 PR closed
+
+on:
+  pull_request_target:
+    types:
+      - closed
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  thank-you:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post Thank You Comment
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        env:
+            comment: Thanks for helping make WXT better!
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: process.env.comment
+            })
