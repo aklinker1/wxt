@@ -62,6 +62,7 @@ Here are some examples:
   ```
 
 - HTML file only built for all targets other than `chrome`:
+
   ```html
   <!doctype html>
   <html lang="en">

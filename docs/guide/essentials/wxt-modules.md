@@ -9,19 +9,24 @@ WXT provides a "module system" that let's you run code at different steps in the
 There are two ways to add a module to your project:
 
 1. **NPM**: install an NPM package, like [`@wxt-dev/auto-icons`](https://www.npmjs.com/package/@wxt-dev/auto-icons) and add it to your config:
+
    ```ts
    // wxt.config.ts
    export default defineConfig({
      modules: ['@wxt-dev/auto-icons'],
    });
    ```
+
    > Searching for ["wxt module"](https://www.npmjs.com/search?q=wxt%20module) on NPM is a good way to find published WXT modules.
+
 2. **Local**: add a file to your project's `modules/` directory:
-   ```
+
+   ```plaintext
    <srcDir>/
      modules/
        my-module.ts
    ```
+
    > To learn more about writing your own modules, read the [Writing Modules](/guide/essentials/wxt-modules) docs.
 
 ## Module Options

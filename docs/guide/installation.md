@@ -45,47 +45,63 @@ Once you've run the `dev` command, continue to [Next Steps](#next-steps)!
 
 1. Create a new project
    :::code-group
+
    ```sh [PNPM]
    cd my-project
    pnpm init
    ```
+
    ```sh [Bun]
    cd my-project
    bun init
    ```
+
    ```sh [NPM]
    cd my-project
    npm init
    ```
+
    ```sh [Yarn]
    cd my-project
    yarn init
    ```
+
    :::
+
 2. Install WXT:
    :::code-group
+
    ```sh [PNPM]
    pnpm i -D wxt
    ```
+
    ```sh [Bun]
    bun i -D wxt
    ```
+
    ```sh [NPM]
    npm i -D wxt
    ```
+
    ```sh [Yarn]
    yarn add --dev wxt
    ```
+
    :::
+
 3. Add an entrypoint, `my-project/entrypoints/background.ts`:
    :::code-group
+
    ```ts
    export default defineBackground(() => {
      console.log('Hello world!');
    });
    ```
+
    :::
+
 4. Add scripts to your `package.json`:
+
    ```json
    {
      "scripts": {
@@ -99,20 +115,26 @@ Once you've run the `dev` command, continue to [Next Steps](#next-steps)!
      }
    }
    ```
+
 5. Run your extension in dev mode
    :::code-group
+
    ```sh [PNPM]
    pnpm dev
    ```
+
    ```sh [Bun]
    bun run dev
    ```
+
    ```sh [NPM]
    npm run dev
    ```
+
    ```sh [Yarn]
    yarn dev
    ```
+
    :::
    WXT will automatically open a browser window with your extension installed.
 
