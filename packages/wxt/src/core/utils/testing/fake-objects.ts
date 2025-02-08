@@ -324,9 +324,9 @@ export const fakeWxt = fakeObjectCreator<Wxt>(() => ({
 
 export const fakeWxtDevServer = fakeObjectCreator<WxtDevServer>(() => ({
   currentOutput: fakeBuildOutput(),
-  hostname: 'localhost',
-  origin: 'http://localhost:3000',
+  host: 'localhost',
   port: 3000,
+  origin: 'http://localhost:3000',
   reloadContentScript: vi.fn(),
   reloadExtension: vi.fn(),
   reloadPage: vi.fn(),
@@ -370,9 +370,9 @@ export const fakeManifestCommand =
   }));
 
 export const fakeDevServer = fakeObjectCreator<WxtDevServer>(() => ({
-  hostname: 'localhost',
-  origin: 'http://localhost',
+  host: 'localhost',
   port: 5173,
+  origin: 'http://localhost:3000',
   reloadContentScript: vi.fn(),
   reloadExtension: vi.fn(),
   reloadPage: vi.fn(),

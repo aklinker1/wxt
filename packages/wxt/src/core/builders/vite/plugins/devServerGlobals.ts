@@ -15,9 +15,9 @@ export function devServerGlobals(
 
       return {
         define: {
-          __DEV_SERVER_PROTOCOL__: JSON.stringify('ws:'),
-          __DEV_SERVER_HOSTNAME__: JSON.stringify(server.hostname),
-          __DEV_SERVER_PORT__: JSON.stringify(server.port),
+          __DEV_SERVER_ORIGIN__: JSON.stringify(
+            server.origin.replace(/^http(s):/, 'ws$1:'),
+          ),
         },
       };
     },

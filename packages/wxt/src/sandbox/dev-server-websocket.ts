@@ -40,7 +40,7 @@ export function getDevServerWebSocket(): WxtWebSocket {
     );
 
   if (ws == null) {
-    const serverUrl = `${__DEV_SERVER_PROTOCOL__}//${__DEV_SERVER_HOSTNAME__}:${__DEV_SERVER_PORT__}`;
+    const serverUrl = __DEV_SERVER_ORIGIN__;
     logger.debug('Connecting to dev server @', serverUrl);
 
     ws = new WebSocket(serverUrl, 'vite-hmr') as WxtWebSocket;
