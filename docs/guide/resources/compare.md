@@ -10,7 +10,7 @@ Lets compare the features of WXT vs [Plasmo](https://docs.plasmo.com/framework) 
 
 | Features                                                |   WXT   | Plasmo  |  CRXJS  |
 | ------------------------------------------------------- | :-----: | :-----: | :-----: |
-| Maintained                                              |   ✅    | 🟡 [^n] | 🟡 [^m] |
+| Maintained                                              |   ✅    | 🟡 [^n] | ❌ [^m] |
 | Supports all browsers                                   |   ✅    |   ✅    | 🟡 [^j] |
 | MV2 Support                                             |   ✅    |   ✅    | 🟡 [^a] |
 | MV3 Support                                             |   ✅    |   ✅    | 🟡 [^a] |
@@ -66,6 +66,6 @@ Lets compare the features of WXT vs [Plasmo](https://docs.plasmo.com/framework) 
 
 [^l]: WIP, moving very slowly. Follow [wxt-dev/wxt#357](https://github.com/wxt-dev/wxt/issues/357) for updates.
 
-[^m]: See [crxjs/chrome-extension-tools#974](https://github.com/crxjs/chrome-extension-tools/discussions/974)
+[^m]: Archived (see [crxjs/chrome-extension-tools#974](https://github.com/crxjs/chrome-extension-tools/discussions/974))
 
 [^n]: Appears to be in maintenance mode with little to no maintainers nor feature development happening and _(see [wxt-dev/wxt#1404 (comment)](https://github.com/wxt-dev/wxt/pull/1404#issuecomment-2643089518))_
