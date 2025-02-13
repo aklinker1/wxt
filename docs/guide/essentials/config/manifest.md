@@ -128,7 +128,7 @@ If a version is not present in your `package.json`, it defaults to `"0.0.0"`.
 
 WXT automatically discovers your extension's icon by looking at files in the `public/` directory:
 
-```
+```plaintext
 public/
 ├─ icon-16.png
 ├─ icon-24.png
@@ -235,6 +235,7 @@ If you want to use the `activeTab` permission or the `browser.action.onClicked` 
 
 1. Delete the [Popup entrypoint](/guide/essentials/entrypoints#popup) if it exists
 2. Add the `action` key to your manifest:
+
    ```ts
    export default defineConfig({
      manifest: {

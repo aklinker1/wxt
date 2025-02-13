@@ -8,4 +8,4 @@ For this reason, the virtual entrypoints get their own TS project to isolate the
 
 When bundling WXT for publishing to NPM, all the `wxt/*` imports are marked as external and resolved when building your application. Other imports are added inline.
 
-See https://github.com/wxt-dev/wxt/issues/286#issuecomment-1858888390 for more details.
+See <https://github.com/wxt-dev/wxt/issues/286#issuecomment-1858888390> for more details.

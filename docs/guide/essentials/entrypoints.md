@@ -458,7 +458,7 @@ In Chrome, side panels use the `side_panel` API, while Firefox uses the `sidebar
 
 ### Unlisted CSS
 
-Follow Vite's guide to setup your preprocessor of choice: https://vitejs.dev/guide/features.html#css-pre-processors
+Follow Vite's guide to setup your preprocessor of choice: <https://vitejs.dev/guide/features.html#css-pre-processors>
 
 CSS entrypoints are always unlisted. To add CSS to a content script, see the [Content Script](/guide/essentials/content-scripts#css) docs.
 

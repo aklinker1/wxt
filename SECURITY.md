@@ -2,7 +2,7 @@
 
 While WXT is in prerelease, only the latest version will recieve security updates. The latest version is:
 
-<img alt="npm version" src="https://img.shields.io/npm/v/wxt?labelColor=black&color=%234fa048">
+![npm version](https://img.shields.io/npm/v/wxt?labelColor=black&color=%234fa048)
 
 <!--
 ## Reporting a Vulnerability

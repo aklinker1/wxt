@@ -1,41 +1,36 @@
-<h1 align="center">
-  <img align="top" width="44" src="https://raw.githubusercontent.com/wxt-dev/wxt/HEAD/docs/public/hero-logo.svg" alt="WXT Logo">
-  <span>WXT</span>
-</h1>
+<!-- markdownlint-disable first-line-h1 -->
 
-<p align="center">
-  <a href="https://www.npmjs.com/package/wxt" target="_blank"><img alt="npm version" src="https://img.shields.io/npm/v/wxt?labelColor=black&color=%234fa048"></a>
-  <span> </span>
-  <a href="https://www.npmjs.com/package/wxt" target="_blank"><img alt="downloads" src="https://img.shields.io/npm/dm/wxt?labelColor=black&color=%234fa048"></a>
-  <span> </span>
-  <a href="https://github.com/wxt-dev/wxt/blob/main/LICENSE" target="_blank"><img alt="license | MIT" src="https://img.shields.io/npm/l/wxt?labelColor=black&color=%234fa048"></a>
-  <span> </span>
-  <a href="https://codecov.io/github/wxt-dev/wxt" target="_blank"><img alt="coverage" src="https://img.shields.io/codecov/c/github/wxt-dev/wxt?labelColor=black&color=%234fa048"></a>
-</p>
+<!-- markdownlint-capture -->
+<!-- markdownlint-disable no-inline-html heading-increment -->
+<div align="center">
 
-<p align="center">
-  <span>Next-gen framework for developing web extensions.</span>
-  <br/>
-  <span>⚡</span>
-  <br/>
-  <q><i>It's like Nuxt, but for Web Extensions</i></q>
-</p>
+  <!-- markdownlint-disable-next-line heading-start-left -->
 
-<p align="center">
-  <a href="https://wxt.dev/guide/installation.html" target="_blank">Get Started</a>
-  &bull;
-  <a href="https://wxt.dev/api/config.html" target="_blank">Configuration</a>
-  &bull;
-  <a href="https://wxt.dev/examples.html" target="_blank">Examples</a>
-  &bull;
-  <a href="https://github.com/wxt-dev/wxt/blob/main/packages/wxt/CHANGELOG.md" target="_blank">Changelog</a>
-  &bull;
-  <a href="https://discord.gg/ZFsZqGery9" target="_blank">Discord</a>
-</p>
+# <img align="top" width="44" src="https://raw.githubusercontent.com/wxt-dev/wxt/HEAD/docs/public/hero-logo.svg" alt="WXT Logo"> WXT
+
+[![npm version](https://img.shields.io/npm/v/wxt?labelColor=black&color=%234fa048)](https://www.npmjs.com/package/wxt)
+[![downloads](https://img.shields.io/npm/dm/wxt?labelColor=black&color=%234fa048)](https://www.npmjs.com/package/wxt)
+[![license | MIT](https://img.shields.io/npm/l/wxt?labelColor=black&color=%234fa048)](https://github.com/wxt-dev/wxt/blob/main/LICENSE)
+[![coverage](https://img.shields.io/codecov/c/github/wxt-dev/wxt?labelColor=black&color=%234fa048)](https://codecov.io/github/wxt-dev/wxt)
+
+Next-gen framework for developing web extensions.  
+ ⚡  
+ _"It's like Nuxt, but for Web Extensions"_
+
+[Get Started](https://wxt.dev/guide/installation.html) •
+[Configuration](https://wxt.dev/api/config.html) •
+[Examples](https://wxt.dev/examples.html) •
+[Changelog](https://github.com/wxt-dev/wxt/blob/main/packages/wxt/CHANGELOG.md) •
+[Discord](https://discord.gg/ZFsZqGery9)
+
+</div>
+<!-- markdownlint-restore -->
 
 ![Example CLI Output](https://raw.githubusercontent.com/wxt-dev/wxt/HEAD/docs/assets/cli-output.png)
 
 ## Demo
+
+<!-- markdownlint-disable-next-line no-bare-urls -->
 
 https://github.com/wxt-dev/wxt/assets/10101283/4d678939-1bdb-495c-9c36-3aa281d84c94
 
@@ -79,7 +74,7 @@ Or see the [installation guide](https://wxt.dev/guide/installation.html) to get 
 
 WXT is a [MIT-licensed](https://github.com/wxt-dev/wxt/blob/main/LICENSE) open source project with its ongoing development made possible entirely by the support of these awesome backers. If you'd like to join them, please consider [sponsoring WXT's development](https://github.com/sponsors/wxt-dev).
 
-<a href="https://github.com/sponsors/wxt-dev"><img alt="WXT Sponsors" src="https://raw.githubusercontent.com/wxt-dev/static/refs/heads/main/sponsorkit/sponsors.svg"></a>
+[![WXT Sponsors](https://raw.githubusercontent.com/wxt-dev/static/refs/heads/main/sponsorkit/sponsors.svg)](https://github.com/sponsors/wxt-dev)
 
 ## Contributors
 

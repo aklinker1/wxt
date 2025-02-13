@@ -6,7 +6,7 @@
 
 1. Simple messages file format
 2. Plural form support
-3. Integrates with the [I18n Ally VS Code extension](#vscode)
+3. Integrates with the [I18n Ally VS Code extension](#vs-code)
 
 It also provides several benefits over other non-web extension specific i18n packages:
 
@@ -81,7 +81,7 @@ And you're done! Using WXT, you get type-safety out of the box.
 
    > [!NOTE]
    > For the best DX, you should to integrate `@wxt-dev/i18n` into your build process. This enables:
-
+   >
    > 1. Plural forms
    > 2. Simple messages file format
    > 3. Type safety

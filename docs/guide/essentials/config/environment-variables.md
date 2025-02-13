@@ -4,7 +4,7 @@
 
 WXT supports [dotenv files the same way as Vite](https://vite.dev/guide/env-and-mode.html#env-files). Create any of the following files:
 
-```
+```plaintext
 .env
 .env.local
 .env.[mode]

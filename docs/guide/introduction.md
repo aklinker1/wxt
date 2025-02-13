@@ -1,4 +1,4 @@
-# Welcome to WXT!
+# Welcome to WXT
 
 WXT is a modern, open-source framework for building web extensions. Inspired by Nuxt, its goals are to:
 

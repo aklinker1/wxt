@@ -1,0 +1,17 @@
+# See https://git-scm.com/docs/gitignore#_pattern_format for more about ignoring files.
+
+# Ignore build output directories
+out
+dist
+
+# Ignore node_modules directory
+node_modules
+
+# Clone of `README.md`
+packages/wxt/README.md
+
+# Don't lint the `CHANGELOG.md` files
+CHANGELOG.md
+packages/wxt/CHANGELOG.md
+
+patches/*.md

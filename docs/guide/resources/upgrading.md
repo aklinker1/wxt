@@ -86,7 +86,7 @@ WXT no longer ships with Common JS support. If you're using CJS, here's your mig
 1. Add [`"type": "module"`](https://nodejs.org/api/packages.html#type) to your `package.json`.
 2. Change the file extension of any `.js` files that use CJS syntax to `.cjs`, or update them to use EMS syntax.
 
-Vite also provides steps for migrating to ESM. Check them out for more details: https://vitejs.dev/guide/migration#deprecate-cjs-node-api
+Vite also provides steps for migrating to ESM. Check them out for more details: <https://vitejs.dev/guide/migration#deprecate-cjs-node-api>
 
 ## v0.18.0 &rarr; v0.18.5
 
@@ -101,12 +101,14 @@ If you already have `<srcDir>/modules` or `<srcDir>/Modules` directory, `wxt pre
 You have two options:
 
 1. [Recommended] Keep your files where they are and tell WXT to look in a different folder:
+
    ```ts
    // wxt.config.ts
    export default defineConfig({
      modulesDir: 'wxt-modules', // defaults to "modules"
    });
    ```
+
 2. Rename your `modules` directory to something else.
 
 ## v0.17.0 &rarr; v0.18.0
@@ -160,7 +162,7 @@ item.watch((newValue: number, oldValue: number) => { // [!code ++]
 
 JS entrypoints in the output directory have been moved. Unless you're doing some kind of post-build work referencing files, you don't have to make any changes.
 
-```
+```plaintext
 .output/
   <target>/
     chunks/
@@ -191,7 +193,7 @@ export default defineConfig({
 
 ### Renamed Undocumented Constants
 
-Renamed undocumented constants for detecting the build config at runtime in [#380](https://github.com/wxt-dev/wxt/pull/380). Now documented here: https://wxt.dev/guide/multiple-browsers.html#runtime
+Renamed undocumented constants for detecting the build config at runtime in [#380](https://github.com/wxt-dev/wxt/pull/380). Now documented here: <https://wxt.dev/guide/multiple-browsers.html#runtime>
 
 - `__BROWSER__` → `import.meta.env.BROWSER`
 - `__COMMAND__` → `import.meta.env.COMMAND`
@@ -218,7 +220,7 @@ Renamed undocumented constants for detecting the build config at runtime in [#38
 
 ### New `wxt/storage` APIs
 
-`wxt/storage` no longer relies on [`unstorage`](https://www.npmjs.com/package/unstorage). Some `unstorage` APIs, like `prefixStorage`, have been removed, while others, like `snapshot`, are methods on the new `storage` object. Most of the standard usage remains the same. See https://wxt.dev/guide/storage and https://wxt.dev/api/reference/wxt/storage/ for more details ([#300](https://github.com/wxt-dev/wxt/pull/300))
+`wxt/storage` no longer relies on [`unstorage`](https://www.npmjs.com/package/unstorage). Some `unstorage` APIs, like `prefixStorage`, have been removed, while others, like `snapshot`, are methods on the new `storage` object. Most of the standard usage remains the same. See <https://wxt.dev/guide/storage> and <https://wxt.dev/api/reference/wxt/storage/> for more details ([#300](https://github.com/wxt-dev/wxt/pull/300))
 
 ## v0.11.0 &rarr; v0.12.0
 
@@ -228,6 +230,7 @@ Renamed undocumented constants for detecting the build config at runtime in [#38
 
 - If you use auto-imports, no changes are required.
 - If you have disabled auto-imports, you'll need to manually update your import statements:
+
   ```ts
   import { defineBackground, defineContentScript } from 'wxt/client'; // [!code --]
   import { defineBackground, defineContentScript } from 'wxt/sandbox'; // [!code ++]

@@ -53,7 +53,7 @@ export default defineContentScript({
 });
 ```
 
-```
+```sh
 $ wxt build
 wxt build
 

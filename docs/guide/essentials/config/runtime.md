@@ -20,7 +20,7 @@ export default defineAppConfig({
 ```
 
 :::warning
-This file is committed to the repo, so don't put any secrets here. Instead, use [Environment Variables](#environment-variables)
+This file is committed to the repo, so don't put any secrets here. Instead, use [Environment Variables](/guide/essentials/config/environment-variables).
 :::
 
 To access runtime config, WXT provides the `useAppConfig` function:
