@@ -20,11 +20,11 @@ await chrome.scripting.getRegisteredContentScripts();
 
 ## How do I disable opening the browser automatically during development?
 
-See https://wxt.dev/guide/essentials/config/browser-startup.html#disable-opening-browser
+See <https://wxt.dev/guide/essentials/config/browser-startup.html#disable-opening-browser>
 
 ## How do I stay logged into a website during development?
 
-See https://wxt.dev/guide/essentials/config/browser-startup.html#persist-data
+See <https://wxt.dev/guide/essentials/config/browser-startup.html#persist-data>
 
 ## My component library doesn't work in content scripts!
 
