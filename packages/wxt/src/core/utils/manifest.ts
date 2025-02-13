@@ -412,14 +412,6 @@ function addEntrypoints(
       const runtimeContentScripts = contentScripts.filter(
         (cs) => cs.options.registration === 'runtime',
       );
-      if (
-        runtimeContentScripts.length > 0 &&
-        wxt.config.manifestVersion === 2
-      ) {
-        throw Error(
-          'Cannot use `registration: "runtime"` with MV2 content scripts, it is a MV3-only feature.',
-        );
-      }
       runtimeContentScripts.forEach((script) => {
         script.options.matches?.forEach((matchPattern) => {
           addHostPermission(manifest, matchPattern);

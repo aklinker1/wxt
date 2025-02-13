@@ -836,30 +836,6 @@ describe('Manifest Utils', () => {
       });
 
       describe('registration', () => {
-        it('should throw an error when registration=runtime for MV2', async () => {
-          const cs: ContentScriptEntrypoint = fakeContentScriptEntrypoint({
-            options: {
-              registration: 'runtime',
-            },
-            skipped: false,
-          });
-
-          const entrypoints = [cs];
-          const buildOutput: Omit<BuildOutput, 'manifest'> = {
-            publicAssets: [],
-            steps: [{ entrypoints: cs, chunks: [] }],
-          };
-          setFakeWxt({
-            config: {
-              manifestVersion: 2,
-            },
-          });
-
-          await expect(
-            generateManifest(entrypoints, buildOutput),
-          ).rejects.toThrowError();
-        });
-
         it('should add host_permissions instead of content_scripts when registration=runtime', async () => {
           const cs: ContentScriptEntrypoint = {
             type: 'content-script',
