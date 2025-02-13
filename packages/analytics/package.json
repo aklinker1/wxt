@@ -1,0 +1,65 @@
+{
+  "name": "@wxt-dev/analytics",
+  "version": "0.4.1",
+  "description": "Add analytics to your web extension",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wxt-dev/wxt.git",
+    "directory": "packages/analytics"
+  },
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    },
+    "./module": {
+      "types": "./dist/module.d.mts",
+      "default": "./dist/module.mjs"
+    },
+    "./background-plugin": {
+      "types": "./dist/background-plugin.d.mts",
+      "default": "./dist/background-plugin.mjs"
+    },
+    "./types": {
+      "types": "./dist/types.d.mts"
+    },
+    "./providers/google-analytics-4": {
+      "types": "./dist/providers/google-analytics-4.d.mts",
+      "default": "./dist/providers/google-analytics-4.mjs"
+    },
+    "./providers/umami": {
+      "types": "./dist/providers/umami.d.mts",
+      "default": "./dist/providers/umami.mjs"
+    }
+  },
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "buildc --deps-only -- wxt",
+    "dev:build": "buildc --deps-only -- wxt build",
+    "check": "pnpm build && check",
+    "build": "buildc -- unbuild",
+    "prepack": "pnpm -s build",
+    "prepare": "buildc --deps-only -- wxt prepare"
+  },
+  "peerDependencies": {
+    "wxt": ">=0.19.23"
+  },
+  "devDependencies": {
+    "@aklinker1/check": "^1.4.5",
+    "@types/chrome": "^0.0.268",
+    "@types/ua-parser-js": "^0.7.39",
+    "publint": "^0.2.12",
+    "typescript": "^5.6.3",
+    "unbuild": "^2.0.0",
+    "wxt": "workspace:*"
+  },
+  "dependencies": {
+    "ua-parser-js": "^1.0.38"
+  }
+}

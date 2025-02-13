@@ -1,0 +1,3 @@
+import '#analytics';
+
+export default () => {};
