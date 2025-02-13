@@ -19,6 +19,7 @@
   "devDependencies": {
     "@aklinker1/buildc": "^1.1.4",
     "@aklinker1/check": "^1.4.5",
+    "@commitlint/types": "^19.5.0",
     "@types/fs-extra": "^11.0.4",
     "@vitest/coverage-v8": "^2.1.4",
     "changelogen": "^0.5.7",
