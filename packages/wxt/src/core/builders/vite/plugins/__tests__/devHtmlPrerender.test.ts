@@ -48,7 +48,7 @@ describe('Dev HTML Prerender Plugin', () => {
         },
       });
       const server = fakeDevServer({
-        hostname: 'localhost',
+        host: 'localhost',
         port: 5173,
         origin: 'http://localhost:5173',
       });

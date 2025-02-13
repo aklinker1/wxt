@@ -360,13 +360,25 @@ export interface InlineConfig {
   dev?: {
     server?: {
       /**
+       * Host to bind the dev server to.
+       *
+       * @default "localhost"
+       */
+      host?: string;
+      /**
        * Port to run the dev server on. Defaults to the first open port from 3000 to 3010.
        */
       port?: number;
       /**
+       * Origin to use to connect from the extension ui runtime to the dev server.
+       *
+       * @default "http://localhost:3000"
+       */
+      origin?: string;
+      /**
        * Hostname to run the dev server on.
        *
-       * @default "localhost"
+       * @deprecated use `host` to specify the interface to bind to, or use `origin` to specify the dev server hostname.
        */
       hostname?: string;
     };
@@ -1103,13 +1115,13 @@ export interface WxtBuilderServer {
 
 export interface ServerInfo {
   /**
+   * Ex: `"localhost"`
+   */
+  host: string;
+  /**
    * Ex: `3000`
    */
   port: number;
-  /**
-   * Ex: `"localhost"`
-   */
-  hostname: string;
   /**
    * Ex: `"http://localhost:3000"`
    */
@@ -1384,8 +1396,9 @@ export interface ResolvedConfig {
   dev: {
     /** Only defined during dev command */
     server?: {
+      host: string;
       port: number;
-      hostname: string;
+      origin: string;
       /**
        * The milliseconds to debounce when a file is saved before reloading.
        * The only way to set this option is to set the `WXT_WATCH_DEBOUNCE`

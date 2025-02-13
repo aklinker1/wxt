@@ -140,19 +140,37 @@ export async function resolveConfig(
 
   let devServerConfig: ResolvedConfig['dev']['server'];
   if (command === 'serve') {
-    const hostname = mergedConfig.dev?.server?.hostname ?? 'localhost';
+    if (mergedConfig.dev?.server?.hostname)
+      logger.warn(
+        `The 'hostname' option is deprecated, please use 'host' or 'origin' depending on your circumstances.`,
+      );
+
+    const host =
+      mergedConfig.dev?.server?.host ??
+      mergedConfig.dev?.server?.hostname ??
+      'localhost';
     let port = mergedConfig.dev?.server?.port;
+    const origin =
+      mergedConfig.dev?.server?.origin ??
+      mergedConfig.dev?.server?.hostname ??
+      'localhost';
     if (port == null || !isFinite(port)) {
       port = await getPort({
+        // Passing host required for Mac, unsure of Windows/Linux
+        host,
         port: 3000,
         portRange: [3001, 3010],
-        // Passing host required for Mac, unsure of Windows/Linux
-        host: hostname,
       });
     }
+    const originWithProtocolAndPort = [
+      origin.match(/^https?:\/\//) ? '' : 'http://',
+      origin,
+      origin.match(/:[0-9]+$/) ? '' : `:${port}`,
+    ].join('');
     devServerConfig = {
+      host,
       port,
-      hostname,
+      origin: originWithProtocolAndPort,
       watchDebounce: safeStringToNumber(process.env.WXT_WATCH_DEBOUNCE) ?? 800,
     };
   }

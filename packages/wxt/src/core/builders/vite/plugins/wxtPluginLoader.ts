@@ -48,7 +48,7 @@ try {
       handler(html, _ctx) {
         const src =
           config.command === 'serve'
-            ? `http://${config.dev.server?.hostname}:${config.dev.server?.port}/@id/${virtualHtmlModuleId}`
+            ? `${config.dev.server?.origin}/@id/${virtualHtmlModuleId}`
             : virtualHtmlModuleId;
 
         const { document } = parseHTML(html);
