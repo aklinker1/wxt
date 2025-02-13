@@ -1,6 +1,6 @@
 {
-  "name": "yarn-ls",
-  "packageManager": "yarn@1.22.22",
+  "name": "yarn-berry-ls",
+  "packageManager": "yarn@4.4.0",
   "dependencies": {
     "mime-types": "2.1.35"
   },

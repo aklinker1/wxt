@@ -68,7 +68,7 @@ describe('Zipping', () => {
           "flatten": "1.0.3"
         },
         "resolutions": {
-          "flatten@1.0.3": "file://./.wxt/local_modules/flatten-1.0.3.tgz"
+          "flatten@1.0.3": "file:./.wxt/local_modules/flatten-1.0.3.tgz"
         }
       }"
     `);
