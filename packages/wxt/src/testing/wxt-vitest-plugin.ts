@@ -7,8 +7,7 @@ import {
   resolveAppConfig,
 } from '../core/builders/vite/plugins';
 import { InlineConfig } from '../types';
-import { vitePlugin as unimportPlugin } from '../builtin-modules/unimport';
-import { createUnimport } from 'unimport';
+import UnimportPlugin from 'unimport/unplugin';
 import { registerWxt, wxt } from '../core/wxt';
 
 /**
@@ -39,9 +38,7 @@ export async function WxtVitest(
     extensionApiMock(wxt.config),
   ];
   if (wxt.config.imports !== false) {
-    const unimport = createUnimport(wxt.config.imports);
-    await unimport.init();
-    plugins.push(unimportPlugin(unimport));
+    plugins.push(UnimportPlugin.vite(wxt.config.imports));
   }
 
   return plugins;

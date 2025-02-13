@@ -152,6 +152,7 @@ export default defineConfig({
         menuGroup('Resources', '/guide/resources/', [
           menuItem('Compare', 'compare.md'),
           menuItem('FAQ', 'faq.md'),
+          menuItem('Community', 'community.md'),
           menuItem('Upgrading WXT', 'upgrading.md'),
           menuItem('Migrate to WXT', 'migrate.md'),
           menuItem('How WXT Works', 'how-wxt-works.md'),

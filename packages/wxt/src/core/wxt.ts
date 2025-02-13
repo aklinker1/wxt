@@ -21,7 +21,8 @@ export async function registerWxt(
 ): Promise<void> {
   // Default NODE_ENV environment variable before other packages, like vite, do it
   // See https://github.com/wxt-dev/wxt/issues/873#issuecomment-2254555523
-  process.env.NODE_ENV ??= command === 'serve' ? 'development' : 'production';
+  process.env.NODE_ENV ??=
+    inlineConfig.mode ?? (command === 'serve' ? 'development' : 'production');
 
   const hooks = createHooks<WxtHooks>();
   const config = await resolveConfig(inlineConfig, command);

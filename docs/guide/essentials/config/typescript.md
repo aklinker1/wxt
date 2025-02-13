@@ -14,7 +14,7 @@ At a minimum, you need to create a TSConfig in your root directory that looks li
 Or if you're in a monorepo, you may not want to extend the config. If you don't extend it, you need to add `.wxt/wxt.d.ts` to the TypeScript project:
 
 ```ts
-/// <reference types="./.wxt/wxt.d.ts" />
+/// <reference path="./.wxt/wxt.d.ts" />
 ```
 
 ## Compiler Options

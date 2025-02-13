@@ -21,6 +21,7 @@ import {
   OutputAsset,
 } from '../../../types';
 import { wxt } from '../../wxt';
+import { mock } from 'vitest-mock-extended';
 
 const outDir = '/output';
 const contentScriptOutDir = '/output/content-scripts';
@@ -1645,6 +1646,33 @@ describe('Manifest Utils', () => {
       expect(manifest.action).toBeUndefined();
       expect(manifest.sidebar_action).toBeUndefined();
       expect(manifest.content_scripts).toBeUndefined();
+    });
+
+    describe('manifest_version', () => {
+      it('should ignore and log a warning when someone sets `manifest_version` inside the manifest', async () => {
+        const buildOutput = fakeBuildOutput();
+        const expectedVersion = 2;
+        setFakeWxt({
+          logger: mock(),
+          config: {
+            command: 'build',
+            manifestVersion: expectedVersion,
+            manifest: {
+              manifest_version: 3,
+            },
+          },
+        });
+
+        const { manifest } = await generateManifest([], buildOutput);
+
+        expect(manifest.manifest_version).toBe(expectedVersion);
+        expect(wxt.logger.warn).toBeCalledTimes(1);
+        expect(wxt.logger.warn).toBeCalledWith(
+          expect.stringContaining(
+            '`manifest.manifest_version` config was set, but ignored',
+          ),
+        );
+      });
     });
   });
 

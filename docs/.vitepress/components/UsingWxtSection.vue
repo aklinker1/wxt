@@ -65,6 +65,8 @@ const chromeExtensionIds = [
   'odffpjnpocjfcaclnenaaaddghkgijdb', // Blync: Preview Links, Selection Search, AI Assistant
   'kofbbilhmnkcmibjbioafflgmpkbnmme', // HTML to Markdown - Convert webpages to markdown
   'boecmgggeigllcdocgioijmleimjbfkg', // Walmart WFS Profit Calculator
+  'dlnjcbkmomenmieechnmgglgcljhoepd', // Youtube Live Chat Fullscreen
+  'keiealdacakpnbbljlmhfgcebmaadieg', // Python Code Runner
 ];
 
 const { data, err, isLoading } = useListExtensionDetails(chromeExtensionIds);

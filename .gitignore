@@ -6,7 +6,6 @@
 .webextrc
 .wxt
 *.log
-/.vscode/
 /docs/.vitepress/cache
 coverage
 dist

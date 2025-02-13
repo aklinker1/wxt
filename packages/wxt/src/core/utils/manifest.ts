@@ -76,6 +76,12 @@ export async function generateManifest(
     icons: discoverIcons(buildOutput),
   };
   const userManifest = wxt.config.manifest;
+  if (userManifest.manifest_version) {
+    delete userManifest.manifest_version;
+    wxt.logger.warn(
+      '`manifest.manifest_version` config was set, but ignored. To change the target manifest version, use the `manifestVersion` option or the `--mv2`/`--mv3` CLI flags.\nSee https://wxt.dev/guide/essentials/target-different-browsers.html#target-a-manifest-version',
+    );
+  }
 
   let manifest = defu(
     userManifest,

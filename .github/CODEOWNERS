@@ -1,6 +1,9 @@
 # Set default
 * @aklinker1 @Timeraa
 
+# Secure Directories
+/.github/ @aklinker1
+
 # Creator of specific wxt modules
-packages/auto-icons/ @Timeraa
-packages/unocss/ @Timeraa
+/packages/auto-icons/ @Timeraa
+/packages/unocss/ @Timeraa

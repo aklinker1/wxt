@@ -157,6 +157,8 @@ This is usually caused by one of two things (or both) when using `createShadowRo
 
    :::
 
+   If you use ShadCN, [see this blog post](https://aabidk.dev/blog/building-modern-cross-browser-web-extensions-content-scripts-and-ui/#using-radixui-portals-to-move-the-dialog-to-shadow-dom).
+
    ::::::
 
 Both issues have the same cause: the library puts something outside the `ShadowRoot`, and the `ShadowRoot`'s isolation prevents CSS from being applied to your UI.

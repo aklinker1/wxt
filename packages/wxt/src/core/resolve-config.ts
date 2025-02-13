@@ -1,4 +1,5 @@
 import { loadConfig } from 'c12';
+import { resolve as esmResolve } from 'import-meta-resolve';
 import {
   InlineConfig,
   ResolvedConfig,
@@ -28,6 +29,7 @@ import { getEslintVersion } from './utils/eslint';
 import { safeStringToNumber } from './utils/number';
 import { loadEnv } from './utils/env';
 import { getPort } from 'get-port-please';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 /**
  * Given an inline config, discover the config file if necessary, merge the results, resolve any
@@ -84,7 +86,7 @@ export async function resolveConfig(
     inlineConfig.root ?? userConfig.root ?? process.cwd(),
   );
   const wxtDir = path.resolve(root, '.wxt');
-  const wxtModuleDir = await resolveWxtModuleDir();
+  const wxtModuleDir = resolveWxtModuleDir();
   const srcDir = path.resolve(root, mergedConfig.srcDir ?? root);
   const entrypointsDir = path.resolve(
     srcDir,
@@ -156,6 +158,7 @@ export async function resolveConfig(
   }
 
   const userModules = await resolveWxtUserModules(
+    root,
     modulesDir,
     mergedConfig.modules,
   );
@@ -420,21 +423,22 @@ async function getUnimportEslintOptions(
 /**
  * Returns the path to `node_modules/wxt`.
  */
-async function resolveWxtModuleDir() {
-  // TODO: Use this once we're fully running in ESM, see https://github.com/wxt-dev/wxt/issues/277
-  // const url = import.meta.resolve('wxt', import.meta.url);
-  // resolve() returns the "wxt/dist/index.mjs" file, not the package's root
-  // directory, which we want to return from this function.
-  // return path.resolve(fileURLToPath(url), '../..');
+function resolveWxtModuleDir() {
+  // TODO: Drop the __filename expression once we're fully running in ESM
+  // (see https://github.com/wxt-dev/wxt/issues/277)
+  const importer =
+    typeof __filename === 'string'
+      ? pathToFileURL(__filename).href
+      : import.meta.url;
 
-  const requireResolve =
-    globalThis.require?.resolve ??
-    (await import('node:module')).default.createRequire(import.meta.url)
-      .resolve;
+  // TODO: Switch to import.meta.resolve() once the parent argument is unflagged
+  // (e.g. --experimental-import-meta-resolve) and all Node.js versions we support
+  // have it.
+  const url = esmResolve('wxt', importer);
 
-  // resolve() returns the "wxt/dist/index.mjs" file, not the package's root
+  // esmResolve() returns the "wxt/dist/index.mjs" file, not the package's root
   // directory, which we want to return from this function.
-  return path.resolve(requireResolve('wxt'), '../..');
+  return path.resolve(fileURLToPath(url), '../..');
 }
 
 async function isDirMissing(dir: string) {
@@ -479,14 +483,20 @@ export async function mergeBuilderConfig(
 }
 
 export async function resolveWxtUserModules(
+  root: string,
   modulesDir: string,
   modules: string[] = [],
 ): Promise<WxtModuleWithMetadata<any>[]> {
+  const importer = pathToFileURL(path.join(root, 'index.js')).href;
+
   // Resolve node_modules modules
   const npmModules = await Promise.all<WxtModuleWithMetadata<any>>(
     modules.map(async (moduleId) => {
+      // Resolve before importing to allow for a local WXT clone to be
+      // symlinked into a project.
+      const resolvedModulePath = esmResolve(moduleId, importer);
       const mod: { default: WxtModule<any> } = await import(
-        /* @vite-ignore */ moduleId
+        /* @vite-ignore */ resolvedModulePath
       );
       if (mod.default == null) {
         throw Error('Module missing default export: ' + moduleId);

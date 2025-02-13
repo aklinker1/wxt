@@ -217,7 +217,7 @@ function getMainDeclarationEntry(references: WxtDirEntry[]): WxtDirFileEntry {
     } else if (ref.tsReference) {
       const absolutePath = resolve(wxt.config.wxtDir, ref.path);
       const relativePath = relative(wxt.config.wxtDir, absolutePath);
-      lines.push(`/// <reference types="./${normalizePath(relativePath)}" />`);
+      lines.push(`/// <reference path="./${normalizePath(relativePath)}" />`);
     }
   });
   return {

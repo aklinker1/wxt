@@ -14,3 +14,4 @@ Here are some popular messaging libraries that support all browsers and work wit
 - [`webext-bridge`](https://www.npmjs.com/package/webext-bridge) - Messaging in WebExtensions made super easy. Out of the box.
 - [`@webext-core/messaging`](https://www.npmjs.com/package/@webext-core/messaging) - Light weight, type-safe wrapper around the web extension messaging APIs
 - [`@webext-core/proxy-service`](https://www.npmjs.com/package/@webext-core/proxy-service) - A type-safe wrapper around the web extension messaging APIs that lets you call a function from anywhere, but execute it in the background.
+- [`Comctx`](https://github.com/molvqingtai/comctx) - Cross-context RPC solution with type safety and flexible adapters.

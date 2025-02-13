@@ -1,7 +1,7 @@
 {
   "name": "wxt",
   "type": "module",
-  "version": "0.19.26",
+  "version": "0.19.27",
   "description": "Next gen framework for developing web extensions",
   "repository": {
     "type": "git",
@@ -104,6 +104,7 @@
     "get-port-please": "^3.1.2",
     "giget": "^1.2.3",
     "hookable": "^5.5.3",
+    "import-meta-resolve": "^4.1.0",
     "is-wsl": "^3.1.0",
     "jiti": "^1.21.6",
     "json5": "^2.2.3",
@@ -120,7 +121,7 @@
     "perfect-debounce": "^1.0.0",
     "picocolors": "^1.1.1",
     "prompts": "^2.4.2",
-    "publish-browser-extension": "^2.2.2",
+    "publish-browser-extension": "^2.3.0 || ^3.0.0",
     "scule": "^1.3.0",
     "unimport": "^3.13.1",
     "vite": "^5.0.0 || <=6.0.8",

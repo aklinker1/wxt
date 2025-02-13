@@ -1,5 +1,25 @@
 # Changelog
 
+## v0.19.27
+
+[compare changes](https://github.com/wxt-dev/wxt/compare/wxt-v0.19.26...wxt-v0.19.27)
+
+### 🩹 Fixes
+
+- Allow `vite-node@^3.0.0` ([#1378](https://github.com/wxt-dev/wxt/pull/1378))
+- Use path triple slash directive for types that are referenced via path ([#1407](https://github.com/wxt-dev/wxt/pull/1407))
+- Support `publish-browser-extension` v3.0.0 ([ac92d40](https://github.com/wxt-dev/wxt/commit/ac92d40))
+- Respect `inlineConfig.mode` when setting NODE_ENV ([#1416](https://github.com/wxt-dev/wxt/pull/1416))
+- Auto-import does not work when using `@vitejs/plugin-vue` alone ([#1412](https://github.com/wxt-dev/wxt/pull/1412))
+
+### ❤️ Contributors
+
+- Jaguar Zhou ([@aiktb](http://github.com/aiktb))
+- Alec Larson ([@aleclarson](http://github.com/aleclarson))
+- Aaron ([@aklinker1](http://github.com/aklinker1))
+- St3h3n <st3h3n@gmail.com>
+- Eli ([@lishaduck](http://github.com/lishaduck))
+
 ## v0.19.26
 
 [compare changes](https://github.com/wxt-dev/wxt/compare/wxt-v0.19.25...wxt-v0.19.26)

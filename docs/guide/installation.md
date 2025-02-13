@@ -143,3 +143,4 @@ Once you've run the `dev` command, continue to [Next Steps](#next-steps)!
 - Keep reading on about WXT's [Project Structure](/guide/essentials/project-structure) and other essential concepts to learn
 - Configure [automatic browser startup](/guide/essentials/config/browser-startup) during dev mode
 - Explore [WXT's example library](/examples) to see how to use specific APIs or perform common tasks
+- Checkout the [community page](/guide/resources/community) for a list of resources made by the community!
