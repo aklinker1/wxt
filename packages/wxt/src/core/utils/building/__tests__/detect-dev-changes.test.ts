@@ -359,5 +359,63 @@ describe('Detect Dev Changes', () => {
 
       expect(actual).toEqual(expected);
     });
+
+    it('should detect changes to import files with `?suffix`', () => {
+      const importedPath = '/root/utils/shared.css?inline';
+      const changedPath = '/root/utils/shared.css';
+      const script1 = fakeContentScriptEntrypoint({
+        inputPath: '/root/overlay1.content/index.ts',
+      });
+      const script2 = fakeContentScriptEntrypoint({
+        inputPath: '/root/overlay2.ts',
+      });
+      const script3 = fakeContentScriptEntrypoint({
+        inputPath: '/root/overlay3.content/index.ts',
+      });
+
+      const step1: BuildStepOutput = {
+        entrypoints: script1,
+        chunks: [
+          fakeOutputChunk({
+            moduleIds: [fakeFile(), importedPath],
+          }),
+        ],
+      };
+      const step2: BuildStepOutput = {
+        entrypoints: script2,
+        chunks: [
+          fakeOutputChunk({
+            moduleIds: [fakeFile(), fakeFile(), fakeFile()],
+          }),
+        ],
+      };
+      const step3: BuildStepOutput = {
+        entrypoints: script3,
+        chunks: [
+          fakeOutputChunk({
+            moduleIds: [importedPath, fakeFile(), fakeFile()],
+          }),
+        ],
+      };
+
+      const currentOutput: BuildOutput = {
+        manifest: fakeManifest(),
+        publicAssets: [],
+        steps: [step1, step2, step3],
+      };
+      const expected: DevModeChange = {
+        type: 'content-script-reload',
+        cachedOutput: {
+          ...currentOutput,
+          steps: [step2],
+        },
+        changedSteps: [step1, step3],
+        rebuildGroups: [script1, script3],
+      };
+
+      const actual = detectDevChanges([changedPath], currentOutput);
+
+      expect(actual).toEqual(expected);
+    });
   });
 });

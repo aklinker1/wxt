@@ -1,11 +1,16 @@
 import 'uno.css';
 import './style.css';
+import manualStyle from './manual-style.css?inline';
 
 export default defineContentScript({
   matches: ['https://*.duckduckgo.com/*'],
   cssInjectionMode: 'ui',
 
   async main(ctx) {
+    const style = document.createElement('style');
+    style.textContent = manualStyle;
+    document.head.append(style);
+
     const ui = await createShadowRootUi(ctx, {
       name: 'demo-ui',
       position: 'inline',

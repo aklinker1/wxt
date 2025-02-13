@@ -135,14 +135,26 @@ function findEffectedSteps(
   const changes: BuildStepOutput[] = [];
   const changedPath = normalizePath(changedFile);
 
-  const isChunkEffected = (chunk: OutputFile): boolean =>
-    // If it's an HTML file with the same path, is is effected because HTML files need to be re-rendered
-    // - fileName is normalized, relative bundle path, "<entrypoint-name>.html"
-    (chunk.type === 'asset' &&
-      changedPath.replace('/index.html', '.html').endsWith(chunk.fileName)) ||
-    // If it's a chunk that depends on the changed file, it is effected
-    // - moduleIds are absolute, normalized paths
-    (chunk.type === 'chunk' && chunk.moduleIds.includes(changedPath));
+  const isChunkEffected = (chunk: OutputFile): boolean => {
+    switch (chunk.type) {
+      // If it's an HTML file with the same path, is is effected because HTML files need to be re-rendered
+      // - fileName is normalized, relative bundle path, "<entrypoint-name>.html"
+      case 'asset': {
+        return changedPath
+          .replace('/index.html', '.html')
+          .endsWith(chunk.fileName);
+      }
+      // If it's a chunk that depends on the changed file, it is effected
+      // - moduleIds are absolute, normalized paths
+      case 'chunk': {
+        const modulePaths = chunk.moduleIds.map((path) => path.split('?')[0]);
+        return modulePaths.includes(changedPath);
+      }
+      default: {
+        return false;
+      }
+    }
+  };
 
   for (const step of currentOutput.steps) {
     const effectedChunk = step.chunks.find((chunk) => isChunkEffected(chunk));
